@@ -1,0 +1,370 @@
+Large Language Models and Post-Training
+
+Large Language Models (LLMs) are neural network models designed to understand and generate human language. These models are trained on massive collections of text data and learn patterns, relationships, and structures present in language. Modern LLMs are based primarily on the Transformer architecture, which enables efficient processing of long sequences through attention mechanisms.
+
+The development of an LLM usually consists of multiple stages. The first stage is pretraining, where the model learns general language abilities from large-scale datasets. After pretraining, the model is usually adapted through post-training techniques such as continued pretraining, supervised fine-tuning, and preference optimization.
+
+
+Tokens and Tokenization
+
+Language models do not directly process words or sentences. Instead, text is converted into smaller units called tokens. Tokenization is the process of breaking text into tokens that can be represented numerically.
+
+For example, a sentence such as "Large language models are powerful" may be converted into a sequence of token IDs. These numerical representations are then processed by the neural network.
+
+The tokenizer is an important component of an LLM because it determines how text is represented internally. Different models may use different tokenization strategies, vocabulary sizes, and token formats.
+
+
+Embeddings
+
+After tokenization, token IDs are converted into numerical vectors called embeddings. Embeddings represent the meaning and relationships between tokens in a continuous mathematical space.
+
+Words and concepts with similar meanings often have similar embedding representations. For example, the embeddings of "machine learning" and "artificial intelligence" may be closer compared to unrelated concepts.
+
+Embeddings allow neural networks to process language mathematically while preserving important semantic relationships.
+
+
+Transformer Architecture
+
+Modern large language models are primarily based on the Transformer architecture. The Transformer was introduced to overcome limitations of earlier sequence models such as recurrent neural networks.
+
+The key idea behind Transformers is the attention mechanism. Attention allows the model to determine which parts of the input sequence are important when processing each token.
+
+A Transformer contains multiple layers consisting of attention mechanisms, feed-forward networks, normalization layers, and residual connections.
+
+
+Self-Attention
+
+Self-attention is a mechanism that allows every token in a sequence to interact with other tokens. Instead of processing words independently, the model learns relationships between different parts of the input.
+
+For example, in the sentence "The animal did not cross the road because it was tired", attention helps the model understand what "it" refers to.
+
+Self-attention uses three important concepts called Query, Key, and Value representations. These allow the model to calculate how much importance one token should give to another token.
+
+
+Multi-Head Attention
+
+Transformers use multiple attention mechanisms together, called multi-head attention. Each attention head can learn different types of relationships in the data.
+
+One attention head may focus on grammatical relationships, while another may focus on semantic relationships.
+
+Multiple heads allow the model to capture different patterns simultaneously.
+
+
+Pretraining
+
+Pretraining is the first major stage of building an LLM. During pretraining, the model learns from enormous amounts of text data.
+
+The most common objective is next-token prediction. The model receives previous tokens and learns to predict the next token.
+
+For example:
+
+"The capital of France is"
+
+The model learns that the next token is likely to be "Paris".
+
+Through billions or trillions of examples, the model learns language structure, factual associations, reasoning patterns, and world knowledge.
+
+
+Base Models
+
+A pretrained model is called a base model. Base models have strong language understanding abilities but are not necessarily designed to follow human instructions.
+
+A base model may complete text effectively but may not answer questions in a helpful conversational style.
+
+Post-training methods are used to transform base models into useful assistants.
+
+
+Post-Training
+
+Post-training refers to the collection of techniques applied after the initial pretraining stage.
+
+The purpose of post-training is to improve the model's usefulness, specialization, instruction-following ability, and alignment with human preferences.
+
+Common post-training stages include continued pretraining, supervised fine-tuning, and preference optimization.
+
+
+Continued Pretraining
+
+Continued pretraining adapts a general language model to a specific domain by training it further on domain-specific text.
+
+Unlike supervised fine-tuning, continued pretraining does not require instruction-answer pairs.
+
+The model simply continues learning from domain text.
+
+For example, a general language model can be adapted to medical, legal, financial, or scientific language by training on specialized documents.
+
+
+Domain Adaptation
+
+Domain adaptation allows a general-purpose model to become more familiar with a particular field.
+
+A model trained on general internet text may not understand specialized terminology deeply.
+
+Continued pretraining helps the model learn domain vocabulary, writing styles, and common patterns in the target field.
+
+
+Fine-Tuning
+
+Fine-tuning is the process of adapting a pretrained model for a specific task.
+
+During fine-tuning, the model parameters are updated using a smaller dataset designed for the desired behavior.
+
+Fine-tuning can improve instruction following, classification ability, domain knowledge, or conversational behavior.
+
+
+Parameter Efficient Fine-Tuning
+
+Traditional fine-tuning updates all parameters of a model. For large language models, this can require enormous computational resources.
+
+Parameter Efficient Fine-Tuning (PEFT) methods reduce the number of trainable parameters.
+
+Instead of modifying the entire model, PEFT methods train small additional components while keeping most original parameters frozen.
+
+Examples of PEFT methods include LoRA, adapters, and prefix tuning.
+
+
+LoRA
+
+Low-Rank Adaptation, commonly called LoRA, is a parameter-efficient fine-tuning method.
+
+Instead of updating the original weight matrices of a neural network, LoRA introduces small trainable matrices that learn the required changes.
+
+The original model weights remain frozen while the smaller adapter matrices are trained.
+
+This significantly reduces memory usage and training time.
+
+
+LoRA Rank
+
+The rank parameter in LoRA controls the size of the trainable adapter matrices.
+
+A smaller rank means fewer trainable parameters and faster training.
+
+A larger rank provides more capacity but requires more memory.
+
+Choosing the correct rank involves balancing efficiency and model performance.
+
+
+QLoRA
+
+QLoRA combines LoRA with quantization.
+
+Quantization reduces the precision used to represent model weights. Instead of storing weights in full 16-bit or 32-bit precision, models can be represented using lower precision formats such as 4-bit values.
+
+QLoRA allows large language models to be fine-tuned on consumer GPUs by reducing memory requirements while maintaining performance.
+
+
+Quantization
+
+Quantization is a technique that reduces the memory required to store neural network parameters.
+
+A model originally stored with high precision values can be converted into lower precision representations.
+
+Lower precision reduces memory usage and improves efficiency but may introduce small accuracy changes.
+
+
+BitsAndBytes
+
+BitsAndBytes is a library commonly used with Hugging Face models for efficient quantization.
+
+It enables techniques such as 8-bit and 4-bit quantization.
+
+QLoRA implementations often use BitsAndBytes to load quantized models efficiently.
+
+
+Supervised Fine-Tuning
+
+Supervised Fine-Tuning (SFT) is a stage where models learn from instruction-response examples.
+
+A dataset usually contains examples of user prompts and desired assistant responses.
+
+During SFT, the model learns how to follow instructions and produce helpful responses.
+
+
+Instruction Dataset
+
+Instruction datasets contain examples showing desired model behavior.
+
+A typical instruction dataset contains:
+
+- an instruction or user request
+- optional context
+- an expected response
+
+The model learns patterns of answering questions, explaining concepts, and completing tasks.
+
+
+Alignment
+
+Alignment refers to making AI systems behave according to human expectations.
+
+An aligned model should be helpful, harmless, and capable of following user intentions.
+
+Alignment techniques include supervised fine-tuning and preference optimization.
+
+
+Human Preferences
+
+Humans often prefer some model responses over others.
+
+Preference optimization methods use these preferences to train models toward better outputs.
+
+A preferred answer may be more accurate, clearer, safer, or more useful.
+
+
+RLHF
+
+Reinforcement Learning from Human Feedback (RLHF) is a method for aligning language models using human feedback.
+
+Traditional RLHF typically involves training a reward model from human preferences and optimizing the language model using reinforcement learning algorithms such as PPO.
+
+
+Direct Preference Optimization
+
+Direct Preference Optimization (DPO) is a preference optimization method that avoids explicitly training a reward model.
+
+Instead, DPO directly optimizes the language model using pairs of preferred and rejected responses.
+
+The model learns to increase the probability of preferred answers while decreasing the probability of rejected answers.
+
+
+Preference Dataset
+
+A DPO dataset contains three main components:
+
+Prompt
+
+Chosen response
+
+Rejected response
+
+The chosen response represents the preferred behavior, while the rejected response represents an undesirable alternative.
+
+
+Other Preference Optimization Methods
+
+DPO is one of several alignment methods.
+
+Other methods include ORPO, KTO, IPO, SimPO, GRPO, and DAPO.
+
+Different methods explore alternative approaches to aligning models with human preferences and improving reasoning abilities.
+
+
+TRL
+
+Transformer Reinforcement Learning (TRL) is a library from Hugging Face designed for training and aligning language models.
+
+TRL provides trainers for methods such as supervised fine-tuning and preference optimization.
+
+It simplifies complex training workflows by handling many implementation details.
+
+
+Unsloth
+
+Unsloth is a framework designed to make LLM fine-tuning faster and more memory efficient.
+
+It provides optimized implementations for training large language models using techniques such as LoRA and QLoRA.
+
+Unsloth enables efficient experimentation on limited hardware such as Google Colab GPUs.
+
+
+Hugging Face Ecosystem
+
+Hugging Face provides tools and libraries for working with machine learning models.
+
+Important components include Transformers for models, Datasets for data processing, PEFT for efficient fine-tuning, and TRL for alignment training.
+
+
+Training Pipeline
+
+A modern LLM post-training pipeline often follows this structure:
+
+Base Model
+
+↓
+
+Continued Pretraining
+
+↓
+
+Supervised Fine-Tuning
+
+↓
+
+Preference Optimization
+
+↓
+
+Evaluation
+
+↓
+
+Deployment
+
+
+Inference
+
+Inference is the process of using a trained model to generate outputs.
+
+Unlike training, inference does not update model weights.
+
+The model simply receives input and predicts output tokens.
+
+
+Autoregressive Generation
+
+Language models generate text autoregressively.
+
+This means the model predicts one token at a time.
+
+The generated token is added to the input sequence, and the model predicts the next token repeatedly until completion.
+
+
+Decoding Strategies
+
+The model produces probabilities over possible next tokens.
+
+Decoding strategies determine how tokens are selected.
+
+Common strategies include greedy decoding, temperature sampling, top-k sampling, and top-p sampling.
+
+
+Temperature
+
+Temperature controls randomness during generation.
+
+A lower temperature produces more predictable outputs.
+
+A higher temperature allows more diverse and creative responses.
+
+
+Top-k Sampling
+
+Top-k sampling limits token selection to the k most probable tokens.
+
+This prevents extremely unlikely tokens from being selected while maintaining some randomness.
+
+
+Top-p Sampling
+
+Top-p sampling selects from the smallest group of tokens whose combined probability exceeds a chosen threshold.
+
+It dynamically adjusts the number of possible tokens.
+
+
+Evaluation
+
+Evaluation measures the quality of a trained model.
+
+Evaluation can include accuracy tests, human preference comparisons, benchmark tasks, and qualitative analysis.
+
+A successful fine-tuning project should compare model behavior before and after training.
+
+
+The Future of LLM Post-Training
+
+LLM development is increasingly focused on efficient adaptation methods.
+
+Techniques such as LoRA, QLoRA, preference optimization, and reinforcement learning allow researchers and engineers to improve models without requiring massive computational resources.
+
+Modern post-training methods make it possible for individuals and small teams to experiment with powerful language models.

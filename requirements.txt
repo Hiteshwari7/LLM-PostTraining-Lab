@@ -1,0 +1,25 @@
+# Core training stack
+torch>=2.1.0
+transformers>=4.42.0
+datasets>=2.19.0
+accelerate>=0.31.0
+peft>=0.11.0
+trl>=0.9.4
+bitsandbytes>=0.43.0
+
+# Unsloth (fast LoRA/QLoRA fine-tuning)
+unsloth @ git+https://github.com/unslothai/unsloth.git
+
+# Tokenizer / utils
+sentencepiece
+protobuf
+tqdm
+
+# Evaluation / reporting
+pandas
+matplotlib
+scikit-learn
+
+# Notebook environment (only needed if running outside Colab)
+ipykernel
+jupyter

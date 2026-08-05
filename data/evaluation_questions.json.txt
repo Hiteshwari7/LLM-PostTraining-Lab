@@ -1,0 +1,247 @@
+[
+  {
+    "question": "What is a Large Language Model?",
+    "category": "LLM Basics",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Explain how tokenization works in LLMs.",
+    "category": "Tokenization",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "What are embeddings and why are they important?",
+    "category": "Representation Learning",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Explain the Transformer architecture.",
+    "category": "Transformers",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is self-attention?",
+    "category": "Transformers",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain Query, Key, and Value in attention.",
+    "category": "Attention",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Why did Transformers replace RNNs for modern LLMs?",
+    "category": "Architecture",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What happens during LLM pretraining?",
+    "category": "Training",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "What is the difference between a base model and an instruction-tuned model?",
+    "category": "Post Training",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is continued pretraining?",
+    "category": "Post Training",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Why is domain adaptation useful?",
+    "category": "Fine Tuning",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is fine-tuning?",
+    "category": "Fine Tuning",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "What is Parameter Efficient Fine-Tuning?",
+    "category": "PEFT",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Why do we need PEFT methods?",
+    "category": "PEFT",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain LoRA in simple terms.",
+    "category": "LoRA",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "How does LoRA reduce trainable parameters?",
+    "category": "LoRA",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What does LoRA rank mean?",
+    "category": "LoRA",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What happens if LoRA rank is increased?",
+    "category": "LoRA",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "Explain the difference between LoRA and full fine-tuning.",
+    "category": "LoRA",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is QLoRA?",
+    "category": "Quantization",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "How does QLoRA combine quantization and LoRA?",
+    "category": "Quantization",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is 4-bit quantization?",
+    "category": "Quantization",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is BitsAndBytes used for?",
+    "category": "Libraries",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is supervised fine-tuning?",
+    "category": "SFT",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Why does SFT use instruction-response datasets?",
+    "category": "SFT",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain the difference between continued pretraining and SFT.",
+    "category": "Training Stages",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What is alignment in language models?",
+    "category": "Alignment",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Why do LLMs require alignment?",
+    "category": "Alignment",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain RLHF.",
+    "category": "Alignment",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain the traditional RLHF pipeline.",
+    "category": "Alignment",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What is Direct Preference Optimization?",
+    "category": "DPO",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "How is DPO different from RLHF?",
+    "category": "DPO",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "Why does DPO not require a reward model?",
+    "category": "DPO",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What are chosen and rejected responses in DPO?",
+    "category": "DPO",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is ORPO?",
+    "category": "Preference Optimization",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What is KTO?",
+    "category": "Preference Optimization",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What is GRPO?",
+    "category": "Preference Optimization",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What is TRL?",
+    "category": "Tools",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "What is Unsloth?",
+    "category": "Tools",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Why does Unsloth make fine-tuning faster?",
+    "category": "Tools",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain the complete LLM post-training pipeline.",
+    "category": "Pipeline",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What happens during one training step?",
+    "category": "Optimization",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Explain forward pass and backpropagation.",
+    "category": "Training",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Why do we compare base model and fine-tuned model outputs?",
+    "category": "Evaluation",
+    "difficulty": "intermediate"
+  },
+  {
+    "question": "Why can a model have low training loss but poor real-world performance?",
+    "category": "Evaluation",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "What causes catastrophic forgetting?",
+    "category": "Training Problems",
+    "difficulty": "advanced"
+  },
+  {
+    "question": "Why is dataset quality important in fine-tuning?",
+    "category": "Data",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "Why should datasets be separated from training code?",
+    "category": "Engineering Practice",
+    "difficulty": "beginner"
+  },
+  {
+    "question": "How would you explain your complete Unsloth fine-tuning project in an interview?",
+    "category": "Interview",
+    "difficulty": "advanced"
+  }
+]
