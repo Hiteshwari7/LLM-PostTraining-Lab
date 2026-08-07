@@ -1,5 +1,5 @@
 # LLM Post-Training Lab
-### Building "PostTraining Tutor" : a Domain-Specific AI Tutor via Continued Pretraining, SFT, LoRA/QLoRA, and DPO
+### Building "PostTraining Tutor": a Domain-Specific AI Tutor via SFT, LoRA/QLoRA, and DPO
 
 > A hands-on, end-to-end demonstration of the modern LLM post-training pipeline, taking a general-purpose base model and turning it into a small domain expert that explains LLM concepts (Transformers, LoRA, QLoRA, SFT, DPO, RLHF, Alignment) to learners.
 
@@ -11,7 +11,7 @@ Most public tutorials stop at "here's how to fine-tune a model with LoRA." They 
 
 This repository was built to:
 
-- Demonstrate the **complete post-training stack** — Continued Pretraining → SFT → Preference Alignment (DPO) in one coherent project, rather than three disconnected tutorials.
+- Demonstrate the **complete post-training stack** — Base Instruction Model → SFT → DPO Alignment in one coherent project, rather than three disconnected tutorials.
 - Produce a genuinely useful artifact: **PostTraining Tutor**, a lightweight model specialized in explaining LLM/post-training concepts (the same concepts used to build it which is a deliberately self-referential demo).
 - Serve as a **teaching resource** for an AI talk/presentation, with every notebook cell explaining the *what*, *why*, and *how* behind each step, not just the code.
 - Give a transparent, reproducible **base vs. SFT vs. DPO comparison**, so the effect of each stage is visible rather than assumed.
