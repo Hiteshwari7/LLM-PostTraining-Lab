@@ -1,22 +1,22 @@
 # LLM Post-Training Lab
-### Building "PostTraining Tutor" — a Domain-Specific AI Tutor via Continued Pretraining, SFT, LoRA/QLoRA, and DPO
+### Building "PostTraining Tutor" : a Domain-Specific AI Tutor via Continued Pretraining, SFT, LoRA/QLoRA, and DPO
 
-> A hands-on, end-to-end demonstration of the modern LLM post-training pipeline — taking a general-purpose base model and turning it into a small domain expert that explains LLM concepts (Transformers, LoRA, QLoRA, SFT, DPO, RLHF, Alignment) to learners.
+> A hands-on, end-to-end demonstration of the modern LLM post-training pipeline, taking a general-purpose base model and turning it into a small domain expert that explains LLM concepts (Transformers, LoRA, QLoRA, SFT, DPO, RLHF, Alignment) to learners.
 
 ---
 
 ## 1. Motivation
 
-Most public tutorials stop at "here's how to fine-tune a model with LoRA." They rarely walk through the **full pipeline** a real post-training team uses: adapting a base model to a domain, teaching it to follow instructions, and then aligning its behavior with human preferences.
+Most public tutorials stop at "here's how to fine-tune a model with LoRA." They rarely walk through the **full pipeline** a real post-training team uses i.e adapting a base model to a domain, teaching it to follow instructions, and then aligning its behavior with human preferences.
 
 This repository was built to:
 
-- Demonstrate the **complete post-training stack** — Continued Pretraining → SFT → Preference Alignment (DPO) — in one coherent project, rather than three disconnected tutorials.
-- Produce a genuinely useful artifact: **PostTraining Tutor**, a lightweight model specialized in explaining LLM/post-training concepts (the same concepts used to build it — a deliberately self-referential demo).
+- Demonstrate the **complete post-training stack** — Continued Pretraining → SFT → Preference Alignment (DPO) in one coherent project, rather than three disconnected tutorials.
+- Produce a genuinely useful artifact: **PostTraining Tutor**, a lightweight model specialized in explaining LLM/post-training concepts (the same concepts used to build it which is a deliberately self-referential demo).
 - Serve as a **teaching resource** for an AI talk/presentation, with every notebook cell explaining the *what*, *why*, and *how* behind each step, not just the code.
 - Give a transparent, reproducible **base vs. SFT vs. DPO comparison**, so the effect of each stage is visible rather than assumed.
 
-This is not a generic finance/customer-support chatbot demo — it is an educational tutor whose subject matter mirrors the technique used to train it.
+This is not a generic finance/customer-support chatbot demo, it is an educational tutor whose subject matter mirrors the technique used to train it.
 
 ---
 
