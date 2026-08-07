@@ -2,7 +2,7 @@
 
 ## 1. The problem they solve
 
-A 3B-parameter model has 3 billion numbers. Full fine-tuning means updating (and storing gradients + optimizer state for) all 3 billion of them — for Adam-style optimizers, that's roughly 3-4x the model's own size in extra memory, on top of the model itself. That's out of reach for a free Colab GPU.
+A 3B-parameter model has 3 billion numbers. Full fine-tuning means updating (and storing gradients + optimizer state for) all 3 billion of them, for Adam-style optimizers, that's roughly 3-4x the model's own size in extra memory, on top of the model itself. That's out of reach for a free Colab GPU.
 
 ## 2. LoRA — Low-Rank Adaptation
 
