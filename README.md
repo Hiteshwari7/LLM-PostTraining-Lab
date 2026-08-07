@@ -1,5 +1,5 @@
 # LLM Post-Training Lab
-### Building "PostTraining Tutor" — a Domain-Specific AI Tutor via Continued Pretraining, SFT, LoRA/QLoRA, and DPO
+### Building "PostTraining Tutor" : a Domain-Specific AI Tutor via Continued Pretraining, SFT, LoRA/QLoRA, and DPO
 
 > A hands-on, end-to-end demonstration of the modern LLM post-training pipeline, taking a general-purpose base model and turning it into a small domain expert that explains LLM concepts (Transformers, LoRA, QLoRA, SFT, DPO, RLHF, Alignment) to learners.
 
