@@ -16,7 +16,7 @@ This repository was built to:
 - Serve as a **teaching resource** for an AI talk/presentation, with every notebook cell explaining the *what*, *why*, and *how* behind each step, not just the code.
 - Give a transparent, reproducible **base vs. SFT vs. DPO comparison**, so the effect of each stage is visible rather than assumed.
 
-This is not a generic finance/customer-support chatbot demo — it is an educational tutor whose subject matter mirrors the technique used to train it.
+
 
 ---
 
