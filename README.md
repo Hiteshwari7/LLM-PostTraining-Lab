@@ -57,10 +57,10 @@ LLM-PostTraining-Lab/
 │   ├── preference_dataset.jsonl          # Stage 3: chosen/rejected pairs for DPO
 │   └── evaluation_questions.json         # Fixed question set used for all evaluations
 │
-├── notebooks/                  # Copy-paste-ready Google Colab notebooks (the core deliverable)
-│   ├── 01_SFT_LoRA_Unsloth.ipynb         # Continued pretraining + SFT with LoRA/QLoRA via Unsloth
+├── notebooks/                  
+│   ├── 01_SFT_LoRA_Unsloth.ipynb         # SFT fine-tuning using LoRA/QLoRA via Unsloth
 │   ├── 02_DPO_Alignment.ipynb            # Preference alignment on top of the SFT adapter
-│   └── 03_Evaluation.ipynb               # Base vs SFT vs DPO comparison
+│   └── 03_Evaluation.ipynb              # Base vs SFT vs DPO comparison
 │
 ├── src/                         # Reusable Python modules (so logic isn't only trapped in notebooks)
 │   ├── dataset_utils.py                  # Loading/formatting datasets for each stage
@@ -76,7 +76,7 @@ LLM-PostTraining-Lab/
 │
 ├── presentation/                # Talk-ready material
 │   ├── architecture_diagram.md           # Standalone Mermaid diagram + narration notes
-│   └── slide_outline.md                  # 15-slide outline for the AI talk
+│   └── slide_outline.md                  # 15-slide for presentation
 │
 ├── outputs/                     # LoRA adapters, logs, evaluation tables (git-ignored — see .gitignore)
 │
@@ -107,24 +107,21 @@ LLM-PostTraining-Lab/
 
 ## 5. Dataset Explanation
 
-| File | Stage | Format | Purpose |
-|---|---|---|---|
-| `llm_post_training_corpus.txt` | 1 — Continued Pretraining | Raw text | Exposes the model to domain vocabulary and phrasing (Transformers, LoRA, DPO, RLHF, etc.) via next-token prediction, *before* any instruction tuning |
-| `instruction_dataset.jsonl` | 2 — SFT | `{"instruction": ..., "response": ...}` per line | Teaches the model to follow a question/instruction with a helpful, well-formed answer |
-| `preference_dataset.jsonl` | 3 — DPO | `{"prompt": ..., "chosen": ..., "rejected": ...}` per line | Teaches the model to *prefer* better explanations over worse ones for the same prompt, without needing a separate reward model |
-| `evaluation_questions.json` | Evaluation | List of question strings/objects | A fixed, held-out question set run through every model checkpoint (base, SFT, DPO) for a fair side-by-side comparison |
+| File                      | Stage      | Format                     | Purpose                                         |
+| ------------------------- | ---------- | -------------------------- | ----------------------------------------------- |
+| instruction_dataset.jsonl | SFT        | instruction-response pairs | Teaches instruction following                   |
+| preference_dataset.jsonl  | DPO        | prompt/chosen/rejected     | Aligns responses toward preferred explanations  |
+| evaluation_questions.json | Evaluation | question list              | Same questions used for Base/SFT/DPO comparison |
+
 
 ---
 
 ## 6. Training Stages Explained
 
-### Stage 1 — Continued Pretraining (Domain Adaptation)
-The base model already knows general English and general ML concepts from its original pretraining. Here it is further trained (causal language modeling, no instruction format) on `llm_post_training_corpus.txt` so it becomes fluent in the specific vocabulary and framing used in LLM post-training discussions. This is *not* an instruction-following stage — it just shifts the model's internal representations toward the domain.
-
-### Stage 2 — Supervised Fine-Tuning (SFT) with LoRA / QLoRA
+### Stage 1 — Supervised Fine-Tuning (SFT) with LoRA / QLoRA
 Using `instruction_dataset.jsonl`, the domain-adapted model is taught the instruction → response *format* using `TRL`'s `SFTTrainer`. Instead of updating all model weights, **LoRA** injects small trainable low-rank matrices into attention layers, and **QLoRA** additionally loads the frozen base model in 4-bit precision — so this stage is trainable on a free Colab GPU. Output: the first usable version of **PostTraining Tutor**.
 
-### Stage 3 — Preference Alignment with DPO
+### Stage 2 — Preference Alignment with DPO
 Direct Preference Optimization takes the SFT model and, using `preference_dataset.jsonl` (chosen vs. rejected response pairs), directly optimizes the model to prefer the better response — without training a separate reward model or running full RLHF-style PPO. This is the same conceptual family as RLHF, but simpler to run end-to-end in a notebook.
 
 ### Evaluation — Base vs. SFT vs. DPO
@@ -146,12 +143,24 @@ Direct Preference Optimization takes the SFT model and, using `preference_datase
 
 ## 8. Results (Template — fill in after training)
 
-| Question | Base Model | SFT Model | DPO Model |
-|---|---|---|---|
-| "What is LoRA?" | _(paste output)_ | _(paste output)_ | _(paste output)_ |
-| "Explain QLoRA in simple terms." | _(paste output)_ | _(paste output)_ | _(paste output)_ |
-| "How does DPO differ from RLHF?" | _(paste output)_ | _(paste output)_ | _(paste output)_ |
+## Results
 
+The final evaluation was performed on 49 fixed questions covering LLM concepts, fine-tuning, LoRA, QLoRA, SFT, DPO, and alignment.
+
+| Metric | Result |
+|---|---|
+| Evaluation questions | 49 |
+| Base vs SFT identical outputs | 0/49 |
+| Base vs DPO identical outputs | 0/49 |
+| SFT vs DPO identical outputs | 23/49 |
+| Average Base response length | 159.2 words |
+| Average SFT response length | 158.8 words |
+| Average DPO response length | 159 words |
+
+Observations:
+- SFT significantly changes response style compared to the base model.
+- DPO further modifies response preferences and improves alignment with preferred explanations.
+- DPO and SFT outputs remain similar on some questions, showing preference optimization refines rather than completely rewrites the model behavior.
 **Qualitative observations:** _(e.g., "Base model rambles / gives generic ML history; SFT model answers directly in 2–3 sentences; DPO model is more concise and avoids hedging.")_
 
 **Quantitative notes (optional):** response length, keyword coverage, or a small human/LLM-judged preference score across the evaluation set — see `reports/results_analysis.md` for the template.
@@ -160,11 +169,11 @@ Direct Preference Optimization takes the SFT model and, using `preference_datase
 
 ## 9. Future Improvements
 
-- Add a small **reward-model-based RLHF (PPO)** stage as a fourth comparison point against DPO.
+- Add a small **reward-model-based RLHF (PPO)** stage as a third comparison point against DPO.
 - Expand `evaluation_questions.json` and add an automated **LLM-as-judge** scoring script.
 - Try a second base model size to study how post-training gains scale with model size.
 - Merge the LoRA adapters into a single checkpoint and quantize for a lightweight deployable demo (e.g., via `llama.cpp` / GGUF).
-- Add a minimal Gradio/Streamlit chat interface for live demo during the talk.
+- Add a minimal Gradio/Streamlit chat interface for live demo.
 
 ---
 
