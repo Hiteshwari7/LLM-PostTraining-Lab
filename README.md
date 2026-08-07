@@ -24,22 +24,22 @@ This is not a generic finance/customer-support chatbot demo, it is an educationa
 
 ```mermaid
 flowchart TD
-    A[Base Model<br/>Llama-3.2-3B-Instruct<br/>4-bit Quantized] --> B[Stage 1: Continued Pretraining<br/>Domain Adaptation on Raw Corpus]
-    B --> C[Domain-Adapted Base Model]
-    C --> D[Stage 2: Supervised Fine-Tuning - SFT<br/>LoRA / QLoRA on Instruction-Response Pairs]
-    D --> E[SFT Model<br/>'PostTraining Tutor - v1']
-    E --> F[Stage 3: Preference Alignment<br/>DPO on Chosen vs Rejected Pairs]
-    F --> G[DPO-Aligned Model<br/>'PostTraining Tutor - v2']
+    
+   
 
-    C -.eval.-> H[Evaluation Suite]
-    E -.eval.-> H
-    G -.eval.-> H
-    H --> I[Comparison Report:<br/>Base vs SFT vs DPO]
+A[Base Model<br/>Llama-3.2-3B-Instruct<br/>4-bit Quantized] --> B[Stage 1: Supervised Fine-Tuning<br/>SFT with LoRA/QLoRA]
 
-    style A fill:#e8e8e8,stroke:#555
-    style E fill:#cfe8ff,stroke:#1a5fb4
-    style G fill:#d4f4dd,stroke:#2e7d32
-    style I fill:#fff3cd,stroke:#b58105
+B --> C[SFT Adapter<br/>PostTraining Tutor v1]
+
+C --> D[Stage 2: Preference Alignment<br/>DPO on Chosen vs Rejected Pairs]
+
+D --> E[DPO Adapter<br/>PostTraining Tutor v2]
+
+A -.-> F[Evaluation]
+C -.-> F
+E -.-> F
+
+F --> G[Base vs SFT vs DPO Comparison]
 ```
 
 **Read it as:** a single base checkpoint flows through three additive training stages; at every stage we snapshot the model and run it through the same evaluation questions, so the final report shows *what each stage actually changed*.
