@@ -26,7 +26,7 @@ Paste the average-word-count summary from Notebook 3 / `evaluate.py`:
 
 ### Example question: _(What is a Large Language Model?)_
 
-**Base model:** _(What is a Large Language Model? (LLM)
+**Base model:** (What is a Large Language Model? (LLM)
 ==========================
 
 A Large Language Model (LLM) is a type of artificial intelligence (AI) model that is trained on a massive corpus of text data to generate human-like language. LLMs are designed to process and understand natural language, enabling them to perform a wide range of tasks, such as:
@@ -76,16 +76,23 @@ How LLMs Work
 3.  **Embedding**: Each token is converted into a numerical representation using embeddings.
 4.  **Contextualization**: The addition of necessary context so that something can be undesrtood correctly)_
 
-**What changed and why:** _(e.g., "Base rambles into generic ML history; SFT answers in the direct instruction→response format it was trained on; DPO version is shorter and more confident, consistent with the chosen responses in preference_dataset.jsonl favoring directness.")_
+**What changed and why:** What changed and why:
+Base gives a generic explanation.
+SFT follows a cleaner educational structure because it learned instruction-response formatting.
+DPO improves alignment by preferring concise and learner-friendly explanations.
 
-*(repeat for each selected question)*
 
-## 4. Overall takeaways
+## Overall Takeaways
 
-- **Continued pretraining → SFT:** _(what changed in vocabulary/domain fluency once instruction-following was added)_
-- **SFT → DPO:** _(what changed in response style/quality once preference alignment was added)_
-- **Failure cases, if any:** _(any question where a later stage got *worse* — worth being honest about in a talk; alignment isn't guaranteed to improve every single response)_
+### Base Model → SFT
 
-## 5. For the talk
+SFT introduced instruction-following behaviour. Compared to the base model, the SFT model produced more structured explanations and better followed the educational tutor style learned from instruction-response examples.
 
-One or two of the clearest before/after examples from Section 3 make the strongest slide material — pick the pair where the difference is most obvious to someone unfamiliar with the pipeline, not necessarily the most technically interesting one.
+### SFT → DPO
+
+DPO refined the response style by optimizing over chosen and rejected response pairs. The changes were smaller than SFT because DPO operates as an alignment stage rather than teaching new knowledge.
+
+### Failure Cases
+
+Some questions produced very similar SFT and DPO answers. This is expected because DPO does not completely rewrite the model; it adjusts response preferences where the preference data provides a strong signal.
+
