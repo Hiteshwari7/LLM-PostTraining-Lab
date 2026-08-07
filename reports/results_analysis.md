@@ -43,7 +43,7 @@ A Large Language Model (LLM) is a type of artificial intelligence (AI) model tha
 2.  **Deep Neural Network Architecture**: LLMs are built using deep neural networks, which consist of multiple layers of interconnected nodes (neurons).
 3.  **Self-Supervised Learning**: LLMs are typically trained using self-supervised learning methods, where the model is trained to predict the next word)_
 
-**SFT model:** _(What is a Large Language Model? (LLM)
+**SFT model:** (What is a Large Language Model? (LLM)
 ==============================
 
 A Large Language Model (LLM) is a type of machine learning model that is trained on vast amounts of text data to generate human-like language. LLMs are designed to predict the next word in a sequence of text, given the context of the previous words. This prediction process allows LLMs to generate coherent and context-dependent text.
@@ -56,7 +56,7 @@ Key Components of LLMs
 *   **Tokenization**: Text is broken down into individual tokens, such as words or subwords, which are used as input to the model.
 *   **Training Objective**: LLMs are trained using a combination of supervised and reinforcement learning objectives, such as predicting)_
 
-**DPO model:** _(What is a Large Language Model? (LLM)
+**DPO model:** (What is a Large Language Model? (LLM)
 ==============================
 
 A Large Language Model (LLM) is a type of machine learning model that is trained on vast amounts of text data to generate human-like language. LLMs are designed to predict the next word in a sequence, allowing them to generate coherent text.
