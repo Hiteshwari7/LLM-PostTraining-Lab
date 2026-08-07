@@ -141,7 +141,7 @@ Direct Preference Optimization takes the SFT model and, using `preference_datase
 
 ---
 
-## 8. Results (Template — fill in after training)
+## 8. Results 
 
 ## Results
 
