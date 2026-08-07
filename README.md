@@ -163,7 +163,7 @@ Observations:
 - DPO and SFT outputs remain similar on some questions, showing preference optimization refines rather than completely rewrites the model behavior.
 **Qualitative observations:** _(e.g., "Base model rambles / gives generic ML history; SFT model answers directly in 2–3 sentences; DPO model is more concise and avoids hedging.")_
 
-**Quantitative notes (optional):** response length, keyword coverage, or a small human/LLM-judged preference score across the evaluation set — see `reports/results_analysis.md` for the template.
+
 
 ---
 
