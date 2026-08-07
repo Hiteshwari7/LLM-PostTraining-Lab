@@ -162,20 +162,74 @@ Observations:
 - DPO further modifies response preferences and improves alignment with preferred explanations.
 - DPO and SFT outputs remain similar on some questions, showing preference optimization refines rather than completely rewrites the model behavior.
 **Qualitative observations:** _(e.g., "Base model rambles / gives generic ML history; SFT model answers directly in 2–3 sentences; DPO model is more concise and avoids hedging.")_
+  
+## 9. Trained Adapters
+SFT Adapter
 
+Hugging Face:
+
+https://huggingface.co/Hiteshwari7/posttraining-tutor-sft-adapter
+DPO Adapter
+
+Hugging Face:
+
+https://huggingface.co/Hiteshwari7/postraining-tutor-dpo-adapter
 
 
 ---
 
-## 9. Future Improvements
+## 10. Running the Project
+Step 1: Environment
+
+Install dependencies:
+
+pip install unsloth trl peft accelerate bitsandbytes transformers datasets
+
+Step 2: Training
+
+Run notebooks in order:
+
+01_SFT_LoRA_Unsloth.ipynb
+        |
+        ↓
+02_DPO_Alignment.ipynb
+        |
+        ↓
+03_Evaluation.ipynb
+
+##11. Demo
+
+A Gradio interface can be used to compare:
+
+Base Model
+SFT Model
+DPO Model
+
+with the same user question.
+
+Example:
+
+Question:
+"What is LoRA?"
+
+Outputs:
+
+Base:
+...
+
+SFT:
+...
+
+DPO:
+...
+
+## 12. Future Improvements
 
 - Add a small **reward-model-based RLHF (PPO)** stage as a third comparison point against DPO.
 - Expand `evaluation_questions.json` and add an automated **LLM-as-judge** scoring script.
 - Try a second base model size to study how post-training gains scale with model size.
 - Merge the LoRA adapters into a single checkpoint and quantize for a lightweight deployable demo (e.g., via `llama.cpp` / GGUF).
 - Add a minimal Gradio/Streamlit chat interface for live demo.
-
----
 
 ## License / Attribution
 
