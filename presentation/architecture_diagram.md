@@ -1,6 +1,5 @@
 # Architecture Diagram
 
-Standalone copy of the pipeline diagram from the README, with narration notes for presenting it live.
 
 ```mermaid
 flowchart TD
