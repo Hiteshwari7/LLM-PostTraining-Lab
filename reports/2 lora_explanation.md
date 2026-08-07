@@ -2,7 +2,7 @@
 
 ## 1. The problem they solve
 
-A 3B-parameter model has 3 billion numbers. Full fine-tuning means updating (and storing gradients + optimizer state for) all 3 billion of them — for Adam-style optimizers, that's roughly 3-4x the model's own size in extra memory, on top of the model itself. That's out of reach for a free Colab GPU.
+A 3B-parameter model has 3 billion numbers. Full fine-tuning means updating (and storing gradients + optimizer state for) all 3 billion of them i.e for Adam-style optimizers, that's roughly 3-4x the model's own size in extra memory, on top of the model itself. That's out of reach for a free Colab GPU.
 
 ## 2. LoRA — Low-Rank Adaptation
 
@@ -45,4 +45,4 @@ model = FastLanguageModel.get_peft_model(model, r=16, ...)  # <- this is the LoR
 
 ## 5. Why this matters for the pipeline as a whole
 
-Every stage in this repo (continued pretraining, SFT, DPO) reuses the *same* small LoRA adapter mechanism — which is exactly why the adapter files in `outputs/` stay small (megabytes, not gigabytes) and why the same base model can be loaded once in `03_Evaluation.ipynb` and switched between Base/SFT/DPO just by swapping which adapter is active.
+Every stage in this repo (continued pretraining, SFT, DPO) reuses the *same* small LoRA adapter mechanism which is exactly why the adapter files in `outputs/` stay small (megabytes, not gigabytes) and why the same base model can be loaded once in `03_Evaluation.ipynb` and switched between Base/SFT/DPO just by swapping which adapter is active.
