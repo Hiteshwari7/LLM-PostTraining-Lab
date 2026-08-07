@@ -1,6 +1,5 @@
 # Results Analysis — Base vs. SFT vs. DPO
 
-*Fill this in after running `03_Evaluation.ipynb` (or `src/evaluate.py`). It pulls from `outputs/evaluation_results.csv`.*
 
 ## 1. Setup recap
 
