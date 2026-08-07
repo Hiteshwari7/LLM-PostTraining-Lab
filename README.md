@@ -178,52 +178,8 @@ https://huggingface.co/Hiteshwari7/postraining-tutor-dpo-adapter
 
 ---
 
-## 10. Running the Project
-Step 1: Environment
 
-Install dependencies:
-
-pip install unsloth trl peft accelerate bitsandbytes transformers datasets
-
-Step 2: Training
-
-Run notebooks in order:
-
-01_SFT_LoRA_Unsloth.ipynb
-        |
-        ↓
-02_DPO_Alignment.ipynb
-        |
-        ↓
-03_Evaluation.ipynb
-
-##11. Demo
-
-A Gradio interface can be used to compare:
-
-Base Model
-SFT Model
-DPO Model
-
-with the same user question.
-
-Example:
-
-Question:
-"What is LoRA?"
-
-Outputs:
-
-Base:
-...
-
-SFT:
-...
-
-DPO:
-...
-
-## 12. Future Improvements
+## 10. Future Improvements
 
 - Add a small **reward-model-based RLHF (PPO)** stage as a third comparison point against DPO.
 - Expand `evaluation_questions.json` and add an automated **LLM-as-judge** scoring script.
