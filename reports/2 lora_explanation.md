@@ -34,6 +34,7 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=MODEL_NAME,
     load_in_4bit=True,   # <- this is the "Q" in QLoRA
 )
+# Example: creating LoRA adapters during SFT
 model = FastLanguageModel.get_peft_model(model, r=16, ...)  # <- this is the LoRA part
 ```
 
@@ -45,4 +46,16 @@ model = FastLanguageModel.get_peft_model(model, r=16, ...)  # <- this is the LoR
 
 ## 5. Why this matters for the pipeline as a whole
 
-Every stage in this repo (continued pretraining, SFT, DPO) reuses the *same* small LoRA adapter mechanism — which is exactly why the adapter files in `outputs/` stay small (megabytes, not gigabytes) and why the same base model can be loaded once in `03_Evaluation.ipynb` and switched between Base/SFT/DPO just by swapping which adapter is active.
+Both training stages in this project (SFT and DPO) use the same LoRA-based adapter approach.
+
+During SFT, LoRA adapters learn how to transform the base model into a domain-specific educational assistant that follows instruction-response patterns.
+
+During DPO, the SFT adapter is further optimized using preference pairs, refining the model's response style toward preferred answers.
+
+Because only small LoRA adapter matrices are trained:
+
+- Training is possible on a free-tier GPU such as Colab T4.
+- Adapter files remain small compared to full model checkpoints.
+- The same frozen base model can be reused with different adapters.
+
+During evaluation, the base model, SFT adapter, and DPO adapter can be loaded together and switched dynamically, allowing direct comparison of how each post-training stage changes model behaviour.
