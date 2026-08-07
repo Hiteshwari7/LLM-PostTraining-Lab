@@ -85,7 +85,7 @@ LLM-PostTraining-Lab/
 └── .gitignore
 ```
 
-**Why this shape?** Notebooks are what you *run* in Colab; `src/` holds the same logic as importable, testable functions so the project isn't "notebook-only"; `reports/` is where the conceptual explanations live so the notebooks themselves can stay code-focused; `presentation/` turns the whole repo into a ready-made talk.
+
 
 ---
 
