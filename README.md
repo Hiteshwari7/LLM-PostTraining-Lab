@@ -42,8 +42,6 @@ flowchart TD
     style I fill:#fff3cd,stroke:#b58105
 ```
 
-**Read it as:** a single base checkpoint flows through three additive training stages; at every stage we snapshot the model and run it through the same evaluation questions, so the final report shows *what each stage actually changed*.
-
 ---
 
 ## 3. Repository Structure
@@ -173,6 +171,7 @@ SFT Adapter
 Hugging Face:
 
 https://huggingface.co/Hiteshwari7/posttraining-tutor-sft-adapter
+
 DPO Adapter
 
 Hugging Face:
