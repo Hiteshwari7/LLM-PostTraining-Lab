@@ -10,7 +10,6 @@
 
 ## 2. Quantitative signal
 
-Paste the average-word-count summary from Notebook 3 / `evaluate.py`:
 
 | Model | Avg. response length (words) |
 | ----- | ---------------------------: |
