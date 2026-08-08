@@ -166,13 +166,14 @@ Both fine-tuned models show clear behavioural changes compared to the original b
 ---
 
 ## 9. Trained Adapters
-SFT Adapter
+
+## SFT Adapter
 
 Hugging Face:
 
 https://huggingface.co/Hiteshwari7/posttraining-tutor-sft-adapter
 
-DPO Adapter
+## DPO Adapter
 
 Hugging Face:
 
