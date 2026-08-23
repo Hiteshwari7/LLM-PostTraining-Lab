@@ -14,7 +14,9 @@ This repository was built to:
 - Demonstrate the **complete post-training stack** : Continued Pretraining → SFT → Preference Alignment (DPO) — in one coherent project, rather than three disconnected tutorials.
 - Produce a genuinely useful artifact: **PostTraining Tutor**, a lightweight model specialized in explaining LLM/post-training concepts (the same concepts used to build it i.e a deliberately self-referential demo).
 - Serve as a **teaching resource** for an AI talk/presentation, with every notebook cell explaining the *what*, *why*, and *how* behind each step, not just the code.
-- Give a transparent, reproducible **base vs. SFT vs. DPO comparison**, so the effect of each stage is visible rather than assumed.
+- Give a transparent **Base vs. SFT vs. DPO comparison** using both
+  generation-quality evaluation (LLM-as-a-Judge and pairwise preference)
+  and a separate DPO-specific preference evaluation.
 
 
 
@@ -49,34 +51,38 @@ flowchart TD
 ```
 LLM-PostTraining-Lab/
 │
-├── data/                       # All datasets used across the three stages
-│   ├── llm_post_training_corpus.txt      # Stage 1: raw domain text for continued pretraining
-│   ├── instruction_dataset.jsonl         # Stage 2: instruction-response pairs for SFT
-│   ├── preference_dataset.jsonl          # Stage 3: chosen/rejected pairs for DPO
-│   └── evaluation_questions.json         # Fixed question set used for all evaluations
+├── data/
+│   ├── llm_post_training_corpus.txt
+│   ├── instruction_dataset.jsonl
+│   ├── preference_dataset.jsonl
+│   ├── evaluation_questions.json
+│   └── held_out_preference_pairs.jsonl
 │
-├── notebooks/                  # Copy-paste-ready Google Colab notebooks (the core deliverable)
-│   ├── 01_SFT_LoRA_Unsloth.ipynb         # Continued pretraining + SFT with LoRA/QLoRA via Unsloth
-│   ├── 02_DPO_Alignment.ipynb            # Preference alignment on top of the SFT adapter
-│   └── 03_Evaluation.ipynb               # Base vs SFT vs DPO comparison
+├── notebooks/
+│   ├── 01_SFT_LoRA_Unsloth.ipynb
+│   ├── 02_DPO_Alignment.ipynb
+│   ├── 03_Evaluation.ipynb
+│   └── 04_Gradio_Demo.ipynb
 │
-├── src/                         # Reusable Python modules (so logic isn't only trapped in notebooks)
-│   ├── dataset_utils.py                  # Loading/formatting datasets for each stage
-│   ├── train_sft.py                      # Script version of the SFT training loop
-│   ├── train_dpo.py                      # Script version of the DPO training loop
-│   └── evaluate.py                       # Script version of the evaluation/comparison logic
+├── src/
+│   ├── dataset_utils.py
+│   ├── train_sft.py
+│   ├── train_dpo.py
+│   └── evaluate.py
 │
-├── reports/                     # Written explanations — the "why," for readers and reviewers
+├── reports/
 │   ├── fine_tuning_explanation.md
 │   ├── lora_explanation.md
 │   ├── dpo_explanation.md
 │   └── results_analysis.md
 │
-├── presentation/                # Talk-ready material
-│   ├── architecture_diagram.md           # Standalone Mermaid diagram + narration notes
-│   └── slide_outline.md                  # 15-slide outline for the AI talk
+├── presentation/
+│   ├── architecture_diagram.md
+│   └── slide_outline.md
 │
-├── outputs/                     # LoRA adapters, logs, evaluation tables (git-ignored — see .gitignore)
+├── outputs/
+│   ├── evaluation_results.csv
+│   └── plots/
 │
 ├── README.md
 ├── requirements.txt
@@ -106,11 +112,11 @@ LLM-PostTraining-Lab/
 
 | File | Stage | Format | Purpose |
 |---|---|---|---|
-| `llm_post_training_corpus.txt` | 1 — Continued Pretraining | Raw text | Exposes the model to domain vocabulary and phrasing (Transformers, LoRA, DPO, RLHF, etc.) via next-token prediction, *before* any instruction tuning |
-| `instruction_dataset.jsonl` | 2 — SFT | `{"instruction": ..., "response": ...}` per line | Teaches the model to follow a question/instruction with a helpful, well-formed answer |
-| `preference_dataset.jsonl` | 3 — DPO | `{"prompt": ..., "chosen": ..., "rejected": ...}` per line | Teaches the model to *prefer* better explanations over worse ones for the same prompt, without needing a separate reward model |
-| `evaluation_questions.json` | Evaluation | List of question strings/objects | A fixed, held-out question set run through every model checkpoint (base, SFT, DPO) for a fair side-by-side comparison |
-
+| `llm_post_training_corpus.txt` | 1 — Continued Pretraining | Raw text | Domain corpus for continued pretraining |
+| `instruction_dataset.jsonl` | 2 — SFT | Instruction-response pairs | Teaches instruction following and response formatting |
+| `preference_dataset.jsonl` | 3 — DPO | Chosen/rejected pairs | Teaches the model to prefer better responses |
+| `evaluation_questions.json` | Evaluation | Question set | 49 fixed questions used for Base vs SFT vs DPO generation and quality evaluation |
+| `held_out_preference_pairs.jsonl` | DPO Evaluation | Chosen/rejected pairs | 31 unseen preference pairs used for DPO-specific preference accuracy |
 ---
 
 ## 6. Training Stages Explained
@@ -125,7 +131,40 @@ Using `instruction_dataset.jsonl`, the domain-adapted model is taught the instru
 Direct Preference Optimization takes the SFT model and, using `preference_dataset.jsonl` (chosen vs. rejected response pairs), directly optimizes the model to prefer the better response — without training a separate reward model or running full RLHF-style PPO. This is the same conceptual family as RLHF, but simpler to run end-to-end in a notebook.
 
 ### Evaluation — Base vs. SFT vs. DPO
-`evaluation_questions.json` is run through all three checkpoints. Outputs are placed side-by-side in a table so the *incremental effect* of each stage is visible (e.g., does the SFT model answer in a cleaner format? Does the DPO model give more precise, less rambling explanations?).
+
+A fixed set of 49 evaluation questions is used to generate responses from the
+Base, SFT, and DPO models. The same questions are given to all three models
+to ensure a fair comparison.
+
+The evaluation includes:
+
+- Response generation from Base, SFT, and DPO.
+- LLM-as-a-Judge scoring for:
+  - Correctness
+  - Relevance
+  - Clarity
+  - Helpfulness
+  - Overall quality
+- Pairwise preference comparisons between:
+  - Base vs. SFT
+  - SFT vs. DPO
+  - Base vs. DPO
+- Response-length statistics.
+- Visualizations of the evaluation results.
+
+### DPO-Specific Preference Evaluation
+
+A separate held-out dataset containing 31 preference pairs is used to evaluate
+preference behavior independently of the 49-question evaluation set.
+
+Each pair contains a prompt, a chosen response, and a rejected response.
+For each model, the likelihood of the chosen and rejected responses is compared.
+
+A prediction is counted as correct when:
+
+`P(chosen response | prompt) > P(rejected response | prompt)`
+
+This produces a DPO-specific preference accuracy for Base, SFT, and DPO.
 
 ---
 
@@ -133,29 +172,72 @@ Direct Preference Optimization takes the SFT model and, using `preference_datase
 
 1. Open Google Colab → `Runtime > Change runtime type` → select a **GPU** (T4 is enough for a small base model with QLoRA).
 2. Upload the contents of `data/` to the Colab session (or mount Google Drive and point paths there).
-3. Run notebooks **in order**:
-   - `01_SFT_LoRA_Unsloth.ipynb` → produces an SFT LoRA adapter, saved to `outputs/sft_adapter/`
-   - `02_DPO_Alignment.ipynb` → loads the SFT adapter, produces a DPO adapter, saved to `outputs/dpo_adapter/`
-   - `03_Evaluation.ipynb` → loads all three checkpoints and generates `outputs/evaluation_results.csv` + a comparison table
-4. (Optional) Push the trained adapter to the Hugging Face Hub using the upload cell provided in Notebook 1.
+3. Run notebooks in order:
+
+   - `01_SFT_LoRA_Unsloth.ipynb` → Continued pretraining + SFT
+   - `02_DPO_Alignment.ipynb` → DPO preference alignment
+   - `03_Evaluation.ipynb` → Base vs SFT vs DPO evaluation
+   - `04_Gradio_Demo.ipynb` → Interactive Base/SFT/DPO comparison
+
+4. (Optional) Push the trained adapters to the Hugging Face Hub using the
+   upload cells provided in the training notebook.
+
+5. The evaluation notebook produces the comparison tables, CSV results,
+   and visualizations used for analysis.
 
 ---
+## 8. Evaluation Results
 
-## 8. Results 
-| Metric               | Result  |
-| -------------------- | ------- |
-| Evaluation Questions | 49      |
-| BASE == SFT          | 0 / 49  |
-| BASE == DPO          | 0 / 49  |
-| SFT == DPO           | 23 / 49 |
+### LLM-as-a-Judge
 
-Average response length:
+The Base, SFT, and DPO responses were evaluated using an LLM-as-a-Judge
+with scores from 1 to 5.
+
+| Model | Correctness | Relevance | Clarity | Helpfulness | Overall |
+|---|---:|---:|---:|---:|---:|
+| Base | 3.65 | 4.22 | 3.59 | 3.47 | 3.61 |
+| SFT | 4.08 | 4.45 | 4.10 | 3.98 | 4.10 |
+| DPO | 4.12 | 4.49 | 4.16 | 4.06 | 4.14 |
+
+The scores show an overall improvement from Base → SFT → DPO.
+
+### Pairwise Preference
+
+| Comparison | First Model Win | Second Model Win | Tie |
+|---|---:|---:|---:|
+| Base vs SFT | 18.37% | 81.63% | 0.00% |
+| SFT vs DPO | 40.82% | 55.10% | 4.08% |
+| Base vs DPO | 18.37% | 81.63% | 0.00% |
+
+DPO was preferred over SFT in 55.10% of comparisons and over Base in
+81.63% of comparisons.
+
+### DPO-Specific Preference Accuracy
+
+A separate held-out set of 31 preference pairs was used to test whether each
+model assigns a higher likelihood to the chosen response than the rejected
+response.
+
+| Model | Correct Preferences | Accuracy |
+|---|---:|---:|
+| Base | 3 / 31 | 9.68% |
+| SFT | 10 / 31 | 32.26% |
+| DPO | 10 / 31 | 32.26% |
+
+This result provides an additional perspective on DPO. While DPO improved the
+LLM-as-a-Judge scores and pairwise preference results, it did not improve over
+SFT on this particular likelihood-based preference test.
+
+Because the held-out set contains only 31 pairs, this result should be treated
+as an initial observation rather than a definitive conclusion.
+
+### Response Length
 
 | Model | Average Words |
-| ----- | ------------- |
-| Base  | 159.20        |
-| SFT   | 158.82        |
-| DPO   | 159.00        |
+|---|---:|
+| Base | 159.20 |
+| SFT | 158.82 |
+| DPO | 159.00 |
 
 ## Observations
 The SFT model produces responses with a different instruction-following style compared to the base model.
@@ -179,13 +261,20 @@ Hugging Face:
 
 https://huggingface.co/Hiteshwari7/postraining-tutor-dpo-adapter
 
+
+
 ## 10. Future Improvements
 
-- Add a small **reward-model-based RLHF (PPO)** stage as a fourth comparison point against DPO.
-- Expand `evaluation_questions.json` and add an automated **LLM-as-judge** scoring script.
-- Try a second base model size to study how post-training gains scale with model size.
-- Merge the LoRA adapters into a single checkpoint and quantize for a lightweight deployable demo (e.g., via `llama.cpp` / GGUF).
-- Add a minimal Gradio/Streamlit chat interface for live demo during the talk.
+- Expand the held-out preference evaluation set beyond 31 pairs to obtain a
+  more reliable estimate of DPO preference accuracy.
+- Perform pair-level error analysis to understand cases where DPO improves
+  or worsens preference predictions relative to SFT.
+- Analyze chosen/rejected likelihood margins across Base, SFT, and DPO.
+- Investigate why DPO improves generation-level evaluation metrics while not
+  improving the likelihood-based preference accuracy over SFT.
+- Explore a small-scale RLVR/GRPO experiment using verifiable mathematical
+  tasks as a possible next-stage extension.
+- Evaluate the pipeline with an additional base model or model size.
 
 ---
 
